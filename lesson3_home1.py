@@ -92,21 +92,35 @@ history = model.fit(
 
 print("Обучение завершено!")
 
+
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
 axes[0].plot(history.history['loss'],     label='train loss', linewidth=2)
 axes[0].plot(history.history['val_loss'], label='val loss',   linewidth=2)
+
 axes[0].set_xlabel("Эпоха")
 axes[0].set_ylabel("Binary Crossentropy")
-axes[0].set_title("Функция потерь (train vs val)")
+axes[0].set_title("Функция потерь (train vs val vs test)")
 axes[0].legend()
 
 axes[1].plot(history.history['accuracy'],     label='train accuracy', linewidth=2)
 axes[1].plot(history.history['val_accuracy'], label='val accuracy',   linewidth=2)
+
 axes[1].set_xlabel("Эпоха")
 axes[1].set_ylabel("Accuracy")
-axes[1].set_title("Точность (train vs val)")
+axes[1].set_title("Точность (train vs val vs test)")
 axes[1].legend()
 
 plt.tight_layout()
 plt.show()
+
+y_pred = model.predict(X_test).flatten()
+print("Первые 10 предсказаний vs реальных значений\n")
+pred = np.random.choice(y_pred, size=10, replace=False).round(3)
+reality = np.random.choice(y_test, size=10, replace=False).round(3)
+comparison = pd.DataFrame({
+    'реально': reality,
+    'предсказание': pred,
+    'ошибка': reality-pred
+})
+print(comparison)
