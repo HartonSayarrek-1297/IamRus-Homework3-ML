@@ -112,11 +112,11 @@ y_test_cat = to_categorical(y_test, 10)
 # ВАЖНО: специально берём маленькую выборку,
 # чтобы вызвать переобучение у базовой модели
 
-x_train = x_train_full[:3000]
-y_train = y_train_full_cat[:3000]
+x_train = x_train_full[:25000]
+y_train = y_train_full_cat[:25000]
 
-x_val = x_train_full[3000:6000]
-y_val = y_train_full_cat[3000:6000]
+x_val = x_train_full[25000:30000]
+y_val = y_train_full_cat[25000:30000]
 
 print(f"Train: {x_train.shape}")
 print(f"Val:   {x_val.shape}")
@@ -126,11 +126,11 @@ print(f"Классов: {y_train_full_cat.shape[1]}")
 
 model_base = models.Sequential([
     layers.Flatten(input_shape=(28,28)),
-    layers.Dropout(0.4),
-    layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l1(0.0001)),   # скрытый слой
-    layers.Dropout(0.4),
-    layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l1(0.0001)),   # скрытый слой
-    layers.Dropout(0.4),
+    layers.Dropout(0.3),
+    layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.0001)),   # скрытый слой
+    layers.Dropout(0.3),
+    layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l2(0.0001)),   # скрытый слой
+    layers.Dropout(0.3),
     layers.Dense(128, activation='relu'),   # скрытый слой
     
     layers.Dense(10, activation='softmax'),  # выход: 10 классов
